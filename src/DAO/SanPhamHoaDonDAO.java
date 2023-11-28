@@ -68,7 +68,8 @@ public class SanPhamHoaDonDAO extends DuAn1DAO1<SanPhamHoaDon, String> {
                 + "	   END AS 'Gia giam'\n"
                 + "	   from tblAoKhoacMuaDong AKMD JOIN tblChiTietSanPham CTSP ON AKMD.MaAoKhoac = CTSP.MaAoKhoac JOIN tblMauSacSP MS ON CTSP.MaMauSac = MS.MaMauSac JOIN tblSize SZ ON CTSP.MaSize = SZ.MaSize\n"
                 + "	   JOIN tblCL_LA CLLA ON CLLA.MaChatLieuLoaiAo = AKMD.MaChatLieuLoaiAo JOIN tblLoaiAo LA ON CLLA.MaLoaiAo = LA.MaLoaiAo \n"
-                + "	   JOIN tblDotGiamGia DGG ON CLLA.MaLoaiAo = DGG.MaLoaiAo";
+                + "	   JOIN tblDotGiamGia DGG ON CLLA.MaLoaiAo = DGG.MaLoaiAo "
+                + "WHERE CTSP.SoLuongAK > 0";
         List<SanPhamHoaDon> list = selectBySql(sql);
         return list;
     }
