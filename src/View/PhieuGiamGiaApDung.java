@@ -84,8 +84,8 @@ public class PhieuGiamGiaApDung extends javax.swing.JDialog {
         DefaultTableModel tblModel = (DefaultTableModel) tblPhieuGiamGia.getModel();
         tblModel.setRowCount(0);
         try {
-            String ten = txtTimKiem.getText();
-            List<PhieuGiamGia> list = pggDAO.searchByName(ten);
+            int id = Integer.parseInt(txtTimKiem.getText());
+            List<PhieuGiamGia> list = pggDAO.searchByID(id);
             for (PhieuGiamGia pgg : list) {
                 Object[] row = new Object[9];
                 row[0] = pgg.getMaPhieuGiamGia();

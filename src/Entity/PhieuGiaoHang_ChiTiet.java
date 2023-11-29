@@ -9,11 +9,12 @@ public class PhieuGiaoHang_ChiTiet {
     private String DVVC;
     private boolean hinhThucThanhToan;
     private int phiVanChuyen;
+    private String tenMauSac;
 
     public PhieuGiaoHang_ChiTiet() {
     }
 
-    public PhieuGiaoHang_ChiTiet(int maHoaDon, String tenAoKhoac, int soLuongHDCT, float donGia, String DVVC, boolean hinhThucThanhToan, int phiVanChuyen) {
+    public PhieuGiaoHang_ChiTiet(int maHoaDon, String tenAoKhoac, int soLuongHDCT, float donGia, String DVVC, boolean hinhThucThanhToan, int phiVanChuyen, String tenMauSac) {
         this.maHoaDon = maHoaDon;
         this.tenAoKhoac = tenAoKhoac;
         this.soLuongHDCT = soLuongHDCT;
@@ -21,6 +22,7 @@ public class PhieuGiaoHang_ChiTiet {
         this.DVVC = DVVC;
         this.hinhThucThanhToan = hinhThucThanhToan;
         this.phiVanChuyen = phiVanChuyen;
+        this.tenMauSac = tenMauSac;
     }
 
     public int getMaHoaDon() {
@@ -79,10 +81,17 @@ public class PhieuGiaoHang_ChiTiet {
         this.phiVanChuyen = phiVanChuyen;
     }
 
-    
+    public String getTenMauSac() {
+        return tenMauSac;
+    }
+
+    public void setTenMauSac(String tenMauSac) {
+        this.tenMauSac = tenMauSac;
+    }
+
     @Override
     public String toString() {
-        return "PhieuGiaoHang_ChiTiet{" + "maHoaDon=" + maHoaDon + ", tenAoKhoac=" + tenAoKhoac + ", soLuongHDCT=" + soLuongHDCT + ", donGia=" + donGia + ", DVVC=" + DVVC + ", hinhThucThanhToan=" + hinhThucThanhToan + ", phiVanChuyen=" + phiVanChuyen + '}';
+        return "PhieuGiaoHang_ChiTiet{" + "maHoaDon=" + maHoaDon + ", tenAoKhoac=" + tenAoKhoac + ", soLuongHDCT=" + soLuongHDCT + ", donGia=" + donGia + ", DVVC=" + DVVC + ", hinhThucThanhToan=" + hinhThucThanhToan + ", phiVanChuyen=" + phiVanChuyen + ", tenMauSac=" + tenMauSac + '}';
     }
 
 }

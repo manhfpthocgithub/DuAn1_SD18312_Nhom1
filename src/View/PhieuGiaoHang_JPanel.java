@@ -28,27 +28,23 @@ public class PhieuGiaoHang_JPanel extends javax.swing.JPanel {
 
     PhieuGiaoHangDAO PGH_DAO = new PhieuGiaoHangDAO();
     PhieuGiaoHang_ChiTietDAO PGH_ChiTietDAO = new PhieuGiaoHang_ChiTietDAO();
-     PhieuGiaoHang_DaXoa_JPanel cc = new PhieuGiaoHang_DaXoa_JPanel();
-   
-   
-   
+    PhieuGiaoHang_DaXoa_JPanel cc = new PhieuGiaoHang_DaXoa_JPanel();
 
     // ... (Các thành phần và mã khác)
-
     public javax.swing.JTable getTblPhieuGiaoHang() {
         return tblPhieuGiaoHang;
     }
-    
+
     int row = 0;
     PhieuGiaoHang model = new PhieuGiaoHang();
 
     public PhieuGiaoHang_JPanel() {
         initComponents();
         init();
-      
+
     }
 
-  private void handleRowSelection(int selectedRow) {
+    private void handleRowSelection(int selectedRow) {
         // Thực hiện xử lý khi chọn dòng
         // Ví dụ: In ra số dòng được chọn
         System.out.println("Selected row: " + selectedRow);
@@ -191,11 +187,9 @@ public class PhieuGiaoHang_JPanel extends javax.swing.JPanel {
         ChooseNgayGiaoHang.setDate(model.getNgayGiaoHang());
         ChooseNgayNhanHang.setDate(model.getNgayNhanHang());
         if ("DangGiao".equals(model.getTrangThaiGiaoHang())) {
-            cboTrangThaiGiaoHang.setSelectedItem("Đang Giao");
+            cboTrangThaiGiaoHang.setSelectedItem("Đang giao");
         }
-        if ("DaGiao".equals(model.getTrangThaiGiaoHang())) {
-            cboTrangThaiGiaoHang.setSelectedItem("Đã Giao");
-        }
+        
         if ("ChuanBiHang".equals(model.getTrangThaiGiaoHang())) {
             cboTrangThaiGiaoHang.setSelectedItem("Chuẩn bị hàng");
         }
@@ -285,7 +279,7 @@ public class PhieuGiaoHang_JPanel extends javax.swing.JPanel {
         try {
             PGH_DAO.update(model);
             this.fillTable();
-           
+
             cc.fillTablePGHOff();
             MsgBox.alert(this, "Sửa thành công !");
         } catch (Exception e) {
@@ -295,19 +289,19 @@ public class PhieuGiaoHang_JPanel extends javax.swing.JPanel {
 
     void stopWorking() {
         model = getForm();
-        if (cboTrangThaiGiaoHang.getSelectedItem().equals("Chuẩn bị hàng") || cboTrangThaiGiaoHang.getSelectedItem().equals("Đang Giao")) {
-            MsgBox.alert(this, "Bạn chỉ có thể xoá các phiếu giao hàng với trạng thái \"Đã Giao\" !");
-        } else if (cboTrangThaiGiaoHang.getSelectedItem().equals("Đã Giao")) {
-            int option = JOptionPane.showConfirmDialog(this, "Bạn có muốn xoá PGH này ?", "Thông báo", JOptionPane.YES_NO_CANCEL_OPTION);
+        if (cboTrangThaiGiaoHang.getSelectedItem().equals("Đang giao")) {
+            MsgBox.alert(this, "Bạn chỉ có thể xoá các phiếu giao hàng với trạng thái \"Chuẩn bị hàng\" !");
+        } else if (cboTrangThaiGiaoHang.getSelectedItem().equals("Chuẩn bị hàng")) {
+            int option = JOptionPane.showConfirmDialog(this, "Bạn có muốn huỷ Phiếu giao hàng này ?", "Thông báo", JOptionPane.YES_NO_CANCEL_OPTION);
 
             if (option == JOptionPane.YES_OPTION) {
 
                 try {
                     PGH_DAO.changStatus(model);
                     this.fillTable();
-                   
+
                     cc.fillTablePGHOff();
-                    MsgBox.alert(this, "Phiếu giao hàng này đã được xoá.");
+                    MsgBox.alert(this, "Phiếu giao hàng này đã được huỷ.");
                 } catch (Exception e) {
                     MsgBox.alert(this, "Lỗi " + e);
                 }
@@ -623,7 +617,8 @@ public class PhieuGiaoHang_JPanel extends javax.swing.JPanel {
         }
         return lists;
     }
-void fillTable_ChiTiet_PGH(Integer ma) {
+
+    void fillTable_ChiTiet_PGH(Integer ma) {
         DefaultTableModel model = (DefaultTableModel) tblPGH_ChiTiet1.getModel();
         model.setRowCount(0);
         PhieuGiaoHang_ChiTiet pghct = new PhieuGiaoHang_ChiTiet();
@@ -634,24 +629,21 @@ void fillTable_ChiTiet_PGH(Integer ma) {
             Object[] row = {
                 pghct.getMaHoaDon(),
                 pghct.getTenAoKhoac(),
+                pghct.getTenMauSac(),
                 pghct.getSoLuongHDCT(),
                 String.format("%,.0f VNĐ", pghct.getDonGia()),
                 pghct.getDVVC(),
-                pghct.isHinhThucThanhToan() ? "Hoả tốc" : "Thường"
+               
             };
             model.addRow(row);
-            if (pghct.isHinhThucThanhToan()) {
-                model.setValueAt("30k", model.getRowCount() - 1, 6);
-
-            } else {
-                model.setValueAt("15k", model.getRowCount() - 1, 6);
-            }
+           
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        
+
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -754,6 +746,8 @@ void fillTable_ChiTiet_PGH(Integer ma) {
 
         txtMaPhieuGiaoHang.setEditable(false);
 
+        txtMaHoaDon.setEnabled(false);
+
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel13.setText("VND");
 
@@ -773,7 +767,7 @@ void fillTable_ChiTiet_PGH(Integer ma) {
 
         ChooseNgayNhanHang.setDateFormatString("dd-MM-yyyy");
 
-        cboTrangThaiGiaoHang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chuẩn bị hàng", "Đang Giao", "Đã Giao" }));
+        cboTrangThaiGiaoHang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chuẩn bị hàng", "Đang giao" }));
 
         javax.swing.GroupLayout bgThongTinLayout = new javax.swing.GroupLayout(bgThongTin);
         bgThongTin.setLayout(bgThongTinLayout);
@@ -810,7 +804,7 @@ void fillTable_ChiTiet_PGH(Integer ma) {
                             .addComponent(cboDonViVanChuyen, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtMaHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtMaPhieuGiaoHang, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(bgThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(bgThongTinLayout.createSequentialGroup()
                         .addGroup(bgThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -838,7 +832,7 @@ void fillTable_ChiTiet_PGH(Integer ma) {
                         .addComponent(jLabel8)
                         .addGap(39, 39, 39)
                         .addComponent(cboTrangThaiGiaoHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         bgThongTinLayout.setVerticalGroup(
             bgThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -920,7 +914,7 @@ void fillTable_ChiTiet_PGH(Integer ma) {
         });
 
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton3.setText("Xoá");
+        jButton3.setText("Huỷ giao hàng");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -958,7 +952,7 @@ void fillTable_ChiTiet_PGH(Integer ma) {
                 .addComponent(btnReload)
                 .addGap(42, 42, 42)
                 .addComponent(jButton4)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         bgChucNangLayout.setVerticalGroup(
             bgChucNangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1132,30 +1126,33 @@ void fillTable_ChiTiet_PGH(Integer ma) {
         bgDanhSachPGH.setLayout(bgDanhSachPGHLayout);
         bgDanhSachPGHLayout.setHorizontalGroup(
             bgDanhSachPGHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addGroup(bgDanhSachPGHLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1007, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(8, Short.MAX_VALUE))
         );
         bgDanhSachPGHLayout.setVerticalGroup(
             bgDanhSachPGHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgDanhSachPGHLayout.createSequentialGroup()
+            .addGroup(bgDanhSachPGHLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout background1Layout = new javax.swing.GroupLayout(background1);
         background1.setLayout(background1Layout);
         background1Layout.setHorizontalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(background1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background1Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(bgDanhSachPGH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(background1Layout.createSequentialGroup()
                         .addComponent(bgTimKiemVaBoLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addGroup(background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(bgThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bgChucNang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                            .addComponent(bgChucNang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bgThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addGap(0, 0, 0))
         );
         background1Layout.setVerticalGroup(
             background1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1166,21 +1163,22 @@ void fillTable_ChiTiet_PGH(Integer ma) {
                         .addGap(0, 0, 0)
                         .addComponent(bgThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(bgTimKiemVaBoLoc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0)
-                .addComponent(bgDanhSachPGH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bgDanhSachPGH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Quản lý phiếu giao hàng", background1);
 
         tblPGH_ChiTiet1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Hoá Đơn", "Tên Áo", "Số lượng áo", "Đơn giá", "Đơn vị vận chuyển", "Phương thức giao hàng", "Phí vận chuyển"
+                "Mã Hoá Đơn", "Tên Áo", "Màu sắc", "Số lượng áo", "Đơn giá", "Đơn vị vận chuyển"
             }
         ));
         jScrollPane5.setViewportView(tblPGH_ChiTiet1);
@@ -1189,11 +1187,12 @@ void fillTable_ChiTiet_PGH(Integer ma) {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1036, Short.MAX_VALUE)
+            .addGap(0, 1025, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 1030, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 1013, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1268,7 +1267,7 @@ void fillTable_ChiTiet_PGH(Integer ma) {
     }//GEN-LAST:event_cboSearchHTTTActionPerformed
 
     private void tblPhieuGiaoHangMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhieuGiaoHangMousePressed
-         if (evt.getClickCount() == 1) {
+        if (evt.getClickCount() == 1) {
             this.row = tblPhieuGiaoHang.rowAtPoint(evt.getPoint());
             edit();
         } else if (evt.getClickCount() == 2) {

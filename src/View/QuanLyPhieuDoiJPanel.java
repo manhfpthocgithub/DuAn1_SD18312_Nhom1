@@ -4,7 +4,7 @@
  */
 package View;
 
-import DAO.ChonSPDoiDAO;
+import DAO.HoaDonCTDoiDAO;
 import DAO.HoaDonChiTietDAO;
 import DAO.HoaDonDAO;
 import DAO.PhieuDoiDAO;
@@ -31,7 +31,7 @@ import javax.swing.JFileChooser;
  */
 public class QuanLyPhieuDoiJPanel extends javax.swing.JPanel {
 
-    ChonSPDoiDAO cspddao = new ChonSPDoiDAO();
+    HoaDonCTDoiDAO cspddao = new HoaDonCTDoiDAO();
     PhieuDoiDAO pdd = new PhieuDoiDAO();
     HoaDonDAO hdd = new HoaDonDAO();
     HoaDonChiTietDAO hdctdao = new HoaDonChiTietDAO();

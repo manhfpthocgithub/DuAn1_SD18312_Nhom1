@@ -25,16 +25,18 @@ public class LichSuSuDungJPanel extends javax.swing.JPanel {
         DefaultTableModel tblModel = (DefaultTableModel) tblLichSuPgg.getModel();
         tblModel.setRowCount(0);
         try {
-            List<LichSuPGG> list = lsDAO.selectAll();
+            List<LichSuPGG> list = lsDAO.getAll();
             for (LichSuPGG ls : list) {
-                Object[] row = new Object[7];
+                Object[] row = new Object[8];
                 row[0] = ls.getMaLichSu();
                 row[1] = ls.getMaphieugiamgia();
-                row[2] = ls.getGiatripgg();
-                row[3] = String.format("%,.0f VNĐ", ls.getTongtienhang());                
-                row[4] = ls.isTrangThaiLS()?"Đã Được Sử Dụng":"Chưa Sử Dụng";
-                row[5] = ls.getNgaySuDung();
-                row[6] = ls.getGhichu();
+                row[2] = ls.getMaHoaDon();
+                row[3] = ls.getGiatripgg();
+//                row[4] = String.format("%,.0f VNĐ", ls.getTongtienhang());                
+                row[4] =ls.getTongtienhang();                
+                row[5] = ls.isTrangThaiLS()?"Đã Được Sử Dụng":"Chưa Sử Dụng";
+                row[6] = ls.getNgaySuDung();
+                row[7] = ls.getMaNV();
                 tblModel.addRow(row);
             }
         } catch (Exception e) {
@@ -42,25 +44,7 @@ public class LichSuSuDungJPanel extends javax.swing.JPanel {
         }
     } 
     
-    void FillTableHoaDonLS(){
-        DefaultTableModel tblModel = (DefaultTableModel) tblHoaDon.getModel();
-        tblModel.setRowCount(0);
-        try {
-            List<HoaDonKhuyenMai> list = hdkmDAO.selectAll();
-            for (HoaDonKhuyenMai hdkm : list) {                
-                Object[] row = new Object[5];
-                row[0] = hdkm.getMaHDKhuyenMai();
-                row[1] = hdkm.getMaPGG();
-                row[2] = hdkm.getMaHoaDon();
-                row[3] = hdkm.getSoTienConLai();
-                row[4] = hdkm.isTrangThaiHDKM()?"Đã Thanh Toán":"Chưa Thanh Toán"; 
-                tblModel.addRow(row);
-            }
-        } catch (Exception e) {
-            MsgBox.alert(this, "lỗi dữ liệu!");
-            e.printStackTrace();
-        }
-    }
+   
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -71,8 +55,6 @@ public class LichSuSuDungJPanel extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblLichSuPgg = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        tblHoaDon = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         txtLichSu = new javax.swing.JTextField();
         btnTimKiemLS = new javax.swing.JButton();
@@ -81,13 +63,13 @@ public class LichSuSuDungJPanel extends javax.swing.JPanel {
 
         tblLichSuPgg.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Lịch Sử", "Mã Phiếu Giảm Giá", "Giá Trị PGG", "Hạn Mực Chi Tiêu", "Trạng Thái", "Ngày Sử Dụng", "Ghi Chú"
+                "STT", "Mã Phiếu Giảm Giá", "Mã hóa đơn", "Giá Trị PGG", "Tổng tiền hàng", "Trạng Thái", "Ngày Sử Dụng", "Mã nhân viên"
             }
         ));
         tblLichSuPgg.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -96,24 +78,6 @@ public class LichSuSuDungJPanel extends javax.swing.JPanel {
             }
         });
         jScrollPane3.setViewportView(tblLichSuPgg);
-
-        tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "Mã Hoán Đơn Khuyến Mãi", "Mã Phiếu Giảm Giá", "Mã Hóa Đơn", "Tổng Tiền Hàng", "Trạng Thái"
-            }
-        ));
-        tblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblHoaDonMouseClicked(evt);
-            }
-        });
-        jScrollPane4.setViewportView(tblHoaDon);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm Kiếm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(0, 204, 204))); // NOI18N
 
@@ -146,16 +110,12 @@ public class LichSuSuDungJPanel extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
-                    .addComponent(jScrollPane4)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(458, 458, 458)
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGap(458, 458, 458)
+                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(6, Short.MAX_VALUE))
+            .addComponent(jScrollPane3)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,10 +123,8 @@ public class LichSuSuDungJPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(132, 132, 132)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(145, 145, 145)
                 .addComponent(jLabel16)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -205,12 +163,7 @@ public class LichSuSuDungJPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblLichSuPggMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLichSuPggMouseClicked
-        FillTableHoaDonLS();
     }//GEN-LAST:event_tblLichSuPggMouseClicked
-
-    private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
-       
-    }//GEN-LAST:event_tblHoaDonMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -220,8 +173,6 @@ public class LichSuSuDungJPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable tblHoaDon;
     private javax.swing.JTable tblLichSuPgg;
     private javax.swing.JTextField txtLichSu;
     // End of variables declaration//GEN-END:variables

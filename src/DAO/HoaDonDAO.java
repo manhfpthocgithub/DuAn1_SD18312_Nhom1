@@ -118,4 +118,42 @@ public class HoaDonDAO extends DuAn1DAO1<HoaDon, Integer> {
         return null;
     }
 
+    public List<HoaDon> danhSachHD() {
+        String sql = "SELECT \n"
+                + "    H.MaHoaDon,\n"
+                + "    H.MaNhanVien,\n"
+                + "    H.MaKhachHang,\n"
+                + "    H.MaPhieuGiamGia,\n"
+                + "	H.NgayTaoHoaDon,\n"
+                + "    SUM(HDCT.SoLuongHDCT) AS TongSoLuongSanPham,\n"
+                + "    SUM(HDCT.ThanhTienHDCT) AS ThanhTien,\n"
+                + "    H.TrangThaiHoaDon\n"
+                + "FROM \n"
+                + "    tblHoaDon H\n"
+                + "JOIN \n"
+                + "    tblHoaDonChiTiet HDCT ON H.MaHoaDon = HDCT.MaHoaDon\n"
+                + "	WHERE H.TrangThaiHoaDon = N'Đã thanh toán' OR H.TrangThaiHoaDon = N'Đã hủy' OR H.TrangThaiHoaDon = N'Đang giao hàng'\n"
+                + "GROUP BY\n"
+                + "    H.MaHoaDon, H.MaNhanVien, H.MaKhachHang, H.MaPhieuGiamGia,H.NgayTaoHoaDon, H.TrangThaiHoaDon\n";
+        List<HoaDon> list = new ArrayList<>();
+        try {
+            ResultSet rs = JDBCHelper.executeQuery(sql);
+            while (rs.next()) {
+                HoaDon hd = new HoaDon();
+                hd.setMaHoaDon(rs.getInt(1));
+                hd.setMaNhanVien(rs.getString(2));
+                hd.setMaKhachHang(rs.getInt(3));
+                hd.setMaPhieuGiamGia(rs.getInt(4));
+                hd.setNgayTaoHoaDon(rs.getDate(5));
+                hd.setSoLuong(rs.getInt(6));
+                hd.setThanhToan(rs.getFloat(7));
+                hd.setTrangThaiHoaDon(rs.getString(8));
+                list.add(hd);
+            }
+            return list;
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
 }

@@ -17,6 +17,7 @@ public class HoaDon {
     private int maPhieuGiamGia;
     private float tongTien;
     private float thanhToan;
+    private int soLuong ;
     private Date ngayTaoHoaDon;
     private String trangThaiHoaDon;
     private String ghiChuHD;
@@ -124,6 +125,14 @@ public class HoaDon {
 
     public void setGhiChuHD(String ghiChuHD) {
         this.ghiChuHD = ghiChuHD;
+    }
+
+    public int getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
     }
 
     @Override

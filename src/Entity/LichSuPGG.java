@@ -9,28 +9,28 @@ package Entity;
  * @author BANG
  */
 public class LichSuPGG {
+
     private int maLichSu;
     private int maphieugiamgia;
+    private int maHoaDon;
     private int giatripgg;
     private double tongtienhang;
     private String NgaySuDung;
     private boolean TrangThaiLS;
-    private int maHoaDon;
-    private String ghichu;
-    
+    private String maNV;
 
     public LichSuPGG() {
     }
 
-    public LichSuPGG(int maLichSu, int maphieugiamgia, int giatripgg, double tongtienhang, String NgaySuDung, boolean TrangThaiLS, int maHoaDon, String ghichu) {
+    public LichSuPGG(int maLichSu, int maphieugiamgia, int maHoaDon, int giatripgg, double tongtienhang, String NgaySuDung, boolean TrangThaiLS, String maNV) {
         this.maLichSu = maLichSu;
         this.maphieugiamgia = maphieugiamgia;
+        this.maHoaDon = maHoaDon;
         this.giatripgg = giatripgg;
         this.tongtienhang = tongtienhang;
         this.NgaySuDung = NgaySuDung;
         this.TrangThaiLS = TrangThaiLS;
-        this.maHoaDon = maHoaDon;
-        this.ghichu = ghichu;
+        this.maNV = maNV;
     }
 
     public int getMaLichSu() {
@@ -47,6 +47,14 @@ public class LichSuPGG {
 
     public void setMaphieugiamgia(int maphieugiamgia) {
         this.maphieugiamgia = maphieugiamgia;
+    }
+
+    public int getMaHoaDon() {
+        return maHoaDon;
+    }
+
+    public void setMaHoaDon(int maHoaDon) {
+        this.maHoaDon = maHoaDon;
     }
 
     public int getGiatripgg() {
@@ -81,26 +89,17 @@ public class LichSuPGG {
         this.TrangThaiLS = TrangThaiLS;
     }
 
-    public int getMaHoaDon() {
-        return maHoaDon;
+    public String getMaNV() {
+        return maNV;
     }
 
-    public void setMaHoaDon(int maHoaDon) {
-        this.maHoaDon = maHoaDon;
+    public void setMaNV(String maNV) {
+        this.maNV = maNV;
     }
-
-    public String getGhichu() {
-        return ghichu;
-    }
-
-    public void setGhichu(String ghichu) {
-        this.ghichu = ghichu;
-    }
-    
-    
 
     @Override
     public String toString() {
-        return "LichSuPGGDAO{" + "maLichSu=" + maLichSu + ", maphieugiamgia=" + maphieugiamgia + ", NgaySuDung=" + NgaySuDung + ", TrangThaiLS=" + TrangThaiLS + ", maHoaDon=" + maHoaDon + ", ghichu=" + ghichu + '}';
+        return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
+
 }

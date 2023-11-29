@@ -49,8 +49,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <Component id="scrollPaneWin111" min="-2" pref="200" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="body" pref="1173" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="body" pref="1179" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -58,11 +57,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="scrollPaneWin111" pref="706" max="32767" attributes="0"/>
-                      <Component id="body" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="scrollPaneWin111" pref="706" max="32767" attributes="0"/>
               </Group>
+              <Component id="body" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

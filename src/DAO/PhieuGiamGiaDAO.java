@@ -17,7 +17,7 @@ public class PhieuGiamGiaDAO extends DuAn1DAO1<PhieuGiamGia, Integer> {
     final String SELECT_TrangThai_SQL = "SELECT TrangThaiPGG FROM tblPhieuGiamGia";
     final String SELECT_NhanVien_SQL = "SELECT MaNhanVien FROM tblPhieuGiamGia";
     final String SELECT_BY_ID_SQL = "SELECT * FROM tblPhieuGiamGia WHERE MaPhieuGiamGia = ?";
-    final String SELECT_XOA_TRANG_THAI = "UPDATE  tblPhieuGiamGia SET TrangThaiPGG = 0 WHERE MaPhieuGiamGia = ?";
+    final String SELECT_XOA_TRANG_THAI = "DELETE tblPhieuGiamGia WHERE MaPhieuGiamGia = ?";
 
     @Override
     public int insert(PhieuGiamGia entity) {
@@ -114,19 +114,27 @@ public class PhieuGiamGiaDAO extends DuAn1DAO1<PhieuGiamGia, Integer> {
         return list;
     }
 
+    public List<PhieuGiamGia> selectTatCa() {
+        String sql = "SELECT * FROM tblPhieuGiamGia";
+        return this.selectBySql(sql);
+    }
+
     public List<PhieuGiamGia> fillTrangThai(Integer PhieuGiamGia) {
-        String sql = "SELECT * FROM tblPhieuGiamGia WHERE TrangThaiPGG = ?";
+        String sql = "SELECT * FROM tblPhieuGiamGia WHERE TrangThaiPGG = ? ";
         return selectBySql(sql, PhieuGiamGia);
     }
 
     public List<PhieuGiamGia> fillNhanVien(String MaNhanVien) {
-        String sql = "SELECT * FROM tblPhieuGiamGia WHERE MaNhanVien = ?";
+        String sql = "SELECT * FROM tblPhieuGiamGia WHERE MaNhanVien = ? AND TrangThaiPGG = 1";
         return selectBySql(sql, MaNhanVien);
     }
 
-    public List<PhieuGiamGia> delete(Integer ma) {
+    public void delete(Integer ma) {
         JDBCHelper.executeUpdate(SELECT_XOA_TRANG_THAI, ma);
-        return this.selectBySql(SELECT_ALL_SQL);
     }
 
+    public int updateTTMa(int maPGG) {
+        String sql = "UPDATE tblPhieuGiamGia SET TrangThaiPGG = 0 WHERE MaPhieuGiamGia = ?";
+        return JDBCHelper.executeUpdate(sql, maPGG);
+    }
 }
